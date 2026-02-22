@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage('Clone-Repo') {
             steps {
+                deleteDir()
                 git url: 'https://github.com/ArbaazMujawar12/Python-app-with-jenkins-CICD-.git', branch: 'main'
             }
         }
@@ -20,7 +21,7 @@ pipeline {
                 sshagent(credentials: ["${SSH_CRED}"]) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} "mkdir -p ${APP_DIR}"
-                        scp -r README.md app.py requirements.txt test ${REMOTE_USER}@${SERVER_IP}:${APP_DIR}/
+                        scp -r * ${REMOTE_USER}@${SERVER_IP}:${APP_DIR}/
                     '''
                 }
             }
